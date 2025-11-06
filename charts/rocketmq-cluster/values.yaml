@@ -153,6 +153,10 @@ proxy:
     annotations: {}
     type: ClusterIP
 
+  config:
+    remotingAccessAddr: proxy.externalIP
+    remotingListenPort: 8080
+
 dashboard:
   enabled: true
   replicaCount: 1

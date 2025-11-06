@@ -11,7 +11,7 @@
   {{- $brokerRole := $.Values.broker.master.brokerRole -}}
   {{- $brokerConfigKey := "broker-master.conf" -}}
   {{- if gt $brokerId 0 }}
-    {{- $brokerFullName = printf "%s-broker-replica-id%d" $fullName $brokerId -}}
+    {{- $brokerFullName = printf "%s-broker-replica-%d" $fullName $brokerId -}}
     {{- $maxHeapSize = $.Values.broker.replica.jvm.maxHeapSize -}}
     {{- $javaOptsOverride = $.Values.broker.replica.jvm.javaOptsOverride -}}
     {{- $brokerRole = "SLAVE" -}}

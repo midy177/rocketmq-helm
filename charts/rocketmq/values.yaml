@@ -146,6 +146,9 @@ proxy:
     periodSeconds: 10
     timeoutSeconds: 3
     failureThreshold: 6
+  config:
+    remotingAccessAddr: proxy.externalIP
+    remotingListenPort: 8080
 
   ## proxy.service
   service:

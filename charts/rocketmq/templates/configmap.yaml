@@ -21,10 +21,14 @@ data:
 {{- end }}
     controllerDLegerPeers = {{ include "rocketmq.controller.dlegerPeers" $ }}
     controllerStorePath = /home/rocketmq/controller-data
-  proxy.json: |
-    {
-      "rocketMQClusterName": "{{ .Values.clusterName }}"
-    }
+  proxy.json: |-
+{{- $rawConfig := .Values.proxy.config | toYaml }}
+{{- $evaluatedConfig := tpl $rawConfig . | fromYaml }}
+{{- if not (hasKey $evaluatedConfig "rocketMQClusterName") }}
+{{- $_ := set $evaluatedConfig "rocketMQClusterName" (.Values.clusterName | default "DefaultCluster") }}
+{{- end }}
+{{- $config := $evaluatedConfig | toPrettyJson }}
+{{ $config | indent 4 }}
   mq-server-start.sh: |
     java -version
     if [ $? -ne 0 ]; then
