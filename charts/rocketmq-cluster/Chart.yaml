@@ -3,7 +3,7 @@ name: rocketmq-cluster
 description: RocketMQ Helm chart
 type: application
 
-version: 12.4.0
+version: 12.4.1
 appVersion: '5.3.2'
 
 maintainers:
