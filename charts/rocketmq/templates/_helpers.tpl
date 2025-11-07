@@ -82,6 +82,9 @@ broker-cm
 {{ include "rocketmq.fullname" . }}-broker-cm
 {{- end }}
 
+{{- define "rocketmq.broker.fullname" -}}
+{{ include "rocketmq.fullname" . }}-broker
+{{- end }}
 {{/*
 nameserver
 */}}

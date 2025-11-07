@@ -32,6 +32,11 @@ broker:
       requests:
         cpu: 200m
         memory: 3Gi
+    service:
+      enable: false
+      annotations: { }
+      type: ClusterIP
+      externalTrafficPolicy: Local
   
   replica:
     jvm:
@@ -44,6 +49,11 @@ broker:
       requests:
         cpu: 50m
         memory: 2Gi
+    service:
+      enable: false
+      annotations: { }
+      type: ClusterIP
+      externalTrafficPolicy: Local
 
   hostNetwork: false
 
@@ -58,6 +68,27 @@ broker:
       - '*'
       - 10.*.*.*
       - 192.168.*.*
+    accounts:
+      - accessKey: deveops
+        secretKey: 43XvlB5qL59ADx5L
+        whiteRemoteAddress: *
+        admin: false
+        defaultTopicPerm: DENY
+        defaultGroupPerm: SUB
+        topicPerms:
+          - topicA=DENY
+          - topicB=PUB|SUB
+          - topicC=SUB
+        groupPerms:
+          # the group should convert to retry topic
+          - groupA=DENY
+          - groupB=PUB|SUB
+          - groupC=SUB
+      - accessKey: rocketmq
+        secretKey: u8ZFjHZqbc0pUaHJ
+        whiteRemoteAddress: *
+        # if it is admin, it could access all resources
+        admin: true
 
   config:
     ## brokerClusterName brokerName brokerRole brokerId 由内置脚本自动生成

@@ -1,8 +1,8 @@
 {{- $fullName := include "rocketmq.fullname" . -}}
 {{- $clusterRole := "broker" -}}
 {{- $configmapName := include "rocketmq.configmap.fullname" . -}}
-{{- $masterSize := int .Values.broker.size.master -}}
-{{- $replicaCount := int (add1 .Values.broker.size.replica) -}}
+{{- $masterSize := int (.Values.broker.size.master | default 1) -}}
+{{- $replicaCount := int (add1 (.Values.broker.size.replica | default 0)) -}}
 {{- $image := printf "%s:%s" .Values.image.repository .Values.image.tag -}}
 {{- range $brokerId := until $replicaCount -}}
   {{- $brokerFullName := printf "%s-broker-master" $fullName -}}
@@ -233,4 +233,105 @@ spec:
           {{- toYaml . | nindent 10 }}
         {{- end }}
   {{- end }}
+{{- if eq $brokerId 0 }}
+{{- if $.Values.broker.master.service.enable }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $brokerFullName }}
+  labels:
+    {{- include "rocketmq.selectorLabels" $ | nindent 4 }}
+    component: {{ $clusterRole }}
+    broker: {{ $brokerFullName }}
+  {{- with $.Values.broker.master.service.annotations }}
+  annotations:
+    {{ toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ports:
+    - port: 10911
+      protocol: TCP
+      targetPort: 10911
+    {{- if and (eq $.Values.broker.master.service.type "NodePort") $.Values.broker.master.service.nodePort }}
+      nodePort: {{ $.Values.broker.master.service.nodePort }}
+    {{- end }}
+  {{- with $.Values.broker.master.service.additionalPorts }}
+  {{ toYaml . | nindent 2 }}
+  {{- end }}
+  selector:
+    {{- include "rocketmq.selectorLabels" $ | nindent 4 }}
+    component: {{ $clusterRole }}
+    broker: {{ $brokerFullName }}
+  {{- with $.Values.broker.master.service.type }}
+  type: {{ . | quote }}
+  {{- end }}
+  {{- with $.Values.broker.master.service.clusterIP }}
+  clusterIP: {{ . | quote }}
+  {{- end }}
+  {{- if and (eq "LoadBalancer" $.Values.broker.master.service.type) $.Values.broker.master.service.loadBalancerIP }}
+  loadBalancerIP: {{ $.Values.broker.master.service.loadBalancerIP | quote }}
+  {{- end }}
+  {{- with $.Values.broker.master.service.loadBalancerClass }}
+  loadBalancerClass: {{ . | quote }}
+  {{- end }}
+  {{- if and (eq $.Values.broker.master.service.type "NodePort") $.Values.broker.master.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ $.Values.broker.master.service.externalTrafficPolicy | quote }}
+  {{- end }}
+  {{- with $.Values.broker.master.service.sessionAffinity }}
+  sessionAffinity: {{ . | quote }}
+  {{- end }}
+
+{{ end }}
+{{- else }}
+{{- if $.Values.broker.replica.service.enable }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $brokerFullName }}
+  labels:
+    {{- include "rocketmq.selectorLabels" $ | nindent 4 }}
+    component: {{ $clusterRole }}
+    broker: {{ $brokerFullName }}
+  {{- with $.Values.broker.replica.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ports:
+    - port: 10911
+      protocol: TCP
+      targetPort: 10911
+    {{- if and (eq $.Values.broker.replica.service.type "NodePort") $.Values.broker.replica.service.nodePort }}
+      nodePort: {{ $.Values.broker.replica.service.nodePort }}
+    {{- end }}
+  {{- with $.Values.broker.replica.service.additionalPorts }}
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+  selector:
+    {{- include "rocketmq.selectorLabels" $ | nindent 4 }}
+    component: {{ $clusterRole }}
+    broker: {{ $brokerFullName }}
+  {{- with $.Values.broker.replica.service.type }}
+  type: {{ . | quote }}
+  {{- end }}
+  {{- with $.Values.broker.replica.service.clusterIP }}
+  clusterIP: {{ . | quote }}
+  {{- end }}
+  {{- if and (eq "LoadBalancer" $.Values.broker.replica.service.type) $.Values.broker.replica.service.loadBalancerIP }}
+  loadBalancerIP: {{ $.Values.broker.replica.service.loadBalancerIP | quote }}
+  {{- end }}
+  {{- with $.Values.broker.replica.service.loadBalancerClass }}
+  loadBalancerClass: {{ . | quote }}
+  {{- end }}
+  {{- if and (eq $.Values.broker.replica.service.type "NodePort") $.Values.broker.replica.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ $.Values.broker.replica.service.externalTrafficPolicy | quote }}
+  {{- end }}
+  {{- with $.Values.broker.replica.service.sessionAffinity }}
+  sessionAffinity: {{ . | quote }}
+  {{- end }}
+
+{{ end }}
+{{- end }}
 {{- end }}
