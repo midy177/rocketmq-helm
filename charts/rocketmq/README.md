@@ -1,6 +1,6 @@
 # RocketMQ Helm Chart
 
-https://github.com/itboon/rocketmq-helm
+https://github.com/midy177/rocketmq-helm
 
 ## 版本兼容性
 
@@ -12,7 +12,7 @@ https://github.com/itboon/rocketmq-helm
 
 ``` shell
 ## 添加 helm 仓库
-helm repo add rocketmq-repo https://helm-charts.itboon.top/rocketmq
+helm repo add rocketmq-repo xxxxxxx
 helm repo update rocketmq-repo
 ```
 
@@ -69,8 +69,6 @@ helm upgrade --install rocketmq \
   rocketmq-repo/rocketmq-cluster
 
 ```
-
-> 具体资源配额请根据实际环境调整，参考 [examples](https://github.com/itboon/rocketmq-helm/tree/main/examples)
 
 ## 部署详情
 
