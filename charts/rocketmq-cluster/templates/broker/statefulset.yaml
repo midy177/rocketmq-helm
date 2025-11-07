@@ -261,9 +261,6 @@ spec:
       name: ha
       protocol: TCP
       targetPort: 10912
-    - port: 10911
-      protocol: TCP
-      targetPort: 10911
   selector:
     {{- include "rocketmq.selectorLabels" $ | nindent 4 }}
     component: {{ $clusterRole }}
