@@ -31,12 +31,6 @@ broker:
       requests:
         cpu: 200m
         memory: 2Gi
-    service:
-      enable: false
-      annotations: { }
-      type: ClusterIP
-      externalTrafficPolicy: Local
-
   
   replica:
     jvm:
@@ -49,11 +43,6 @@ broker:
       requests:
         cpu: 50m
         memory: 2Gi
-    service:
-      enable: false
-      annotations: { }
-      type: ClusterIP
-      externalTrafficPolicy: Local
 
   hostNetwork: false
 
