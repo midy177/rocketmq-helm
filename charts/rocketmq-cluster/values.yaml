@@ -3,7 +3,7 @@ nameOverride: rocketmq
 
 image:
   repository: "apache/rocketmq"
-  tag: "5.3.2"
+  tag: "5.3.3"
   pullPolicy: IfNotPresent
   pullSecrets: []
   # - name: secretName

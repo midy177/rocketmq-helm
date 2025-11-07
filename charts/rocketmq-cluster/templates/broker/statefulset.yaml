@@ -34,7 +34,6 @@ metadata:
 spec:
   minReadySeconds: {{ $.Values.broker.minReadySeconds | default 20 }}
   replicas: {{ $masterSize }}
-  serviceName: {{ $brokerFullName }}-headless
   podManagementPolicy: {{ $.Values.broker.podManagementPolicy | default "OrderedReady" }}
   {{- with $.Values.broker.updateStrategy }}
   updateStrategy:
@@ -45,7 +44,7 @@ spec:
       {{- include "rocketmq.selectorLabels" $ | nindent 6 }}
       component: {{ $clusterRole }}
       broker: {{ $brokerFullName }}
-  serviceName: ""
+  serviceName: "{{ $brokerFullName }}-headless"
   template:
     metadata:
       annotations:
