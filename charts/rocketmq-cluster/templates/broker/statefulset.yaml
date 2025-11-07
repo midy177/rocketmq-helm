@@ -242,10 +242,6 @@ metadata:
     {{- include "rocketmq.selectorLabels" $ | nindent 4}}
     component: {{ $clusterRole }}
     broker: {{ $brokerFullName }}
-  {{- with $.Values.broker.master.service.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
 spec:
   ports:
     - port: 10909
