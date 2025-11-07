@@ -34,6 +34,7 @@ metadata:
 spec:
   minReadySeconds: {{ $.Values.broker.minReadySeconds | default 20 }}
   replicas: {{ $masterSize }}
+  serviceName: {{ $brokerFullName }}
   podManagementPolicy: {{ $.Values.broker.podManagementPolicy | default "OrderedReady" }}
   {{- with $.Values.broker.updateStrategy }}
   updateStrategy:
