@@ -1,6 +1,6 @@
 # RocketMQ Helm Chart
 
-https://github.com/itboon/rocketmq-helm
+https://github.com/midy177/rocketmq-helm
 
 ## 版本兼容性
 

@@ -3,12 +3,12 @@ name: rocketmq-cluster
 description: RocketMQ Helm chart
 type: application
 
-version: 12.4.1
+version: 12.4.2
 appVersion: '5.3.2'
 
 maintainers:
-  - name: itboon
-    url: 'https://github.com/itboon/rocketmq-helm'
+  - name: midy177
+    url: 'https://github.com/midy177/rocketmq-helm'
 
 keywords:
   - rocketmq

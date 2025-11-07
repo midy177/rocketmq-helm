@@ -3,12 +3,12 @@ name: rocketmq
 description: RocketMQ Helm chart
 type: application
 
-version: 12.5.1
+version: 12.5.2
 appVersion: '5.3.3'
 
 maintainers:
-  - name: itboon
-    url: 'https://github.com/itboon/rocketmq-helm'
+  - name: midy177
+    url: 'https://github.com/midy177/rocketmq-helm'
 
 keywords:
   - rocketmq
